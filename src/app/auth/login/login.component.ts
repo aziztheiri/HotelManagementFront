@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UserStorageService } from 'src/app/core/services/storage/user-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,19 @@ export class LoginComponent {
             this.loginMessage = null; // Clear any previous messages
         //    this.router.navigateByUrl('/home'); // Navigate to home page on success
         console.log(res)
+              if(res.userId !=null){
+                const user  = {
+                  id:res.userId,
+                  role:res.userRole
+                }
+                UserStorageService.saveUser(user)
+                UserStorageService.saveToken(res.jwt)
+                if(UserStorageService.isAdminLoggedIn()){
+                  this.router.navigateByUrl('/admin/dashboard')
+                }else if(UserStorageService.isCustomerLoggedIn()){
+                  this.router.navigateByUrl('/customer/rooms')
+                }
+              }
           } else {
             this.loginMessage = 'Invalid credentials. Please try again.';
           }

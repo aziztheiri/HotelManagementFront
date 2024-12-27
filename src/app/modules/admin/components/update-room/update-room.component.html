@@ -1,0 +1,60 @@
+<div class="form-container">
+    <h2>Edit Room</h2>
+    
+    <!-- Room Editing Form -->
+    <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
+      
+      <!-- Room Name Field -->
+      <div class="form-group">
+        <label for="name">Room Name</label>
+        <input id="name" formControlName="name" type="text" placeholder="Enter room name" />
+        <div class="error" *ngIf="roomForm.get('name')?.touched && roomForm.get('name')?.invalid">
+          <small *ngIf="roomForm.get('name')?.errors?.['required']">Name is required.</small>
+          <small *ngIf="roomForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters long.</small>
+        </div>
+      </div>
+  
+      <!-- Room Type Field -->
+      <div class="form-group">
+        <label for="type">Room Type</label>
+        <select id="type" formControlName="type">
+          <option value="" disabled>Select room type</option>
+          <option value="single">Single</option>
+          <option value="double">Double</option>
+          <option value="suite">Suite</option>
+        </select>
+        <div class="error" *ngIf="roomForm.get('type')?.touched && roomForm.get('type')?.invalid">
+          <small *ngIf="roomForm.get('type')?.errors?.['required']">Please select a room type.</small>
+        </div>
+      </div>
+  
+      <!-- Room Price Field -->
+      <div class="form-group">
+        <label for="price">Room Price ($)</label>
+        <input id="price" formControlName="price" type="text" placeholder="Enter room price" />
+        <div class="error" *ngIf="roomForm.get('price')?.touched && roomForm.get('price')?.invalid">
+          <small *ngIf="roomForm.get('price')?.errors?.['required']">Price is required.</small>
+          <small *ngIf="roomForm.get('price')?.errors?.['pattern']">Enter a valid price (e.g., 100 or 100.99).</small>
+        </div>
+      </div>
+  
+      <!-- Availability Checkbox -->
+      <div class="form-group">
+        <label for="available">Available</label>
+        <input type="checkbox" formControlName="available" />
+      </div>
+  
+      <!-- Image URL Field (Handled as File input) -->
+      <div class="form-group">
+        <label for="imageUrl">Room Image</label>
+        <input id="imageUrl" type="file" (change)="onImageChange($event)" />
+        <div class="error" *ngIf="roomForm.get('imageUrl')?.touched && !imageFile">
+          <small *ngIf="!imageFile">Image is required.</small>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="roomForm.invalid || !imageFile">Update Room</button>
+    </form>
+  </div>
+  

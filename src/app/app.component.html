@@ -1,2 +1,35 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+<nav class="navbar">
+    <!-- Logo Section -->
+    <div class="navbar-logo">
+      <a routerLink="/home">Hotel Management</a>
+    </div>
+  
+    <!-- Links for General Visitors -->
+    <div class="navbar-links" *ngIf="!IsAdminLoggedIn && !isCustomerLoggedIn">
+      <a routerLink="/home">Home</a>
+      <a href="/about">About</a>
+      <a href="/services">Services</a>
+      <a routerLink="/login" class="btn login-btn">Login</a>
+      <a routerLink="/signup" class="btn signup-btn">Sign Up</a>
+    </div>
+  
+    <!-- Links for Admin -->
+    <div class="navbar-links" *ngIf="IsAdminLoggedIn">
+      <a routerLink="/admin/dashboard">Dashboard</a>
+      <a routerLink="/admin/rooms">Rooms</a>
+      <a routerLink="/admin/room">Add Room</a>
+      <a routerLink="/admin/reservations">Reservations</a>
+      <a (click)="logout()">Logout</a>
+    </div>
+  
+    <!-- Links for Customers -->
+    <div class="navbar-links" *ngIf="isCustomerLoggedIn">
+      <a routerLink="/home">Home</a>
+      <a routerLink="/customer/rooms">Rooms</a>
+      <a routerLink="/customer/bookings">Bookings</a>
+      <a (click)="logout()">Logout</a>
+    </div>
+  </nav>
+  
+  <router-outlet></router-outlet>
+  
