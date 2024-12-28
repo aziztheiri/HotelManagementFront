@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CustomerService } from '../../service/customer.service';
+import { UserStorageService } from 'src/app/core/services/storage/user-storage.service';
 
 @Component({
   selector: 'app-rooms',
@@ -12,6 +13,8 @@ export class RoomsComponent {
   total:any;
   message: string = '';
   messageType: 'success' | 'error' | '' = '';
+  showBookingModal: boolean = false;
+  selectedRoomId: number | null = null;
 constructor(private customerService:CustomerService){
   this.getRooms()
 }
@@ -27,5 +30,40 @@ getRooms(){
 changePage(page: number) {
   this.currentPage = page;
   this.getRooms();
+}
+bookingDetails = {
+  userId: UserStorageService.getUserId(), // Replace this with the actual logged-in user ID
+  roomId: 0,
+  checkInDate: '',
+  checkOutDate: '',
+};
+openBookingModal(roomId: number) {
+  this.showBookingModal = true;
+  this.bookingDetails.roomId = roomId;
+}
+closeBookingModal() {
+  this.showBookingModal = false;
+  this.bookingDetails.checkInDate = '';
+  this.bookingDetails.checkOutDate = '';
+}
+bookRoom() {
+  if (this.bookingDetails.checkInDate && this.bookingDetails.checkOutDate) {
+    console.log(this.bookingDetails);
+
+    this.customerService.bookRoom(this.bookingDetails).subscribe(
+      () => {
+        this.message = 'Room booked successfully!';
+        this.messageType = 'success';
+        this.closeBookingModal();
+      },
+      () => {
+        this.message = 'An error occurred while booking the room.';
+        this.messageType = 'error';
+      }
+    );
+  } else {
+    this.message = 'Please fill out all fields.';
+    this.messageType = 'error';
+  }
 }
 }

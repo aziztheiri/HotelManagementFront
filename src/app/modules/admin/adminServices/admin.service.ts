@@ -32,6 +32,16 @@ export class AdminService {
       headers:this.createAuthorizationHeader(),
     })
   }
+  getReservations(pageNumber:number):Observable<any>{
+    return this.http.get(BASIC_URL + `api/admin/reservations/${pageNumber}`,{
+      headers:this.createAuthorizationHeader(),
+    })
+  }
+  changeReservationStatus(reservationId:number,status:string):Observable<any>{
+    return this.http.get(BASIC_URL + `api/admin/reservation/${reservationId}/${status}`,{
+      headers:this.createAuthorizationHeader(),
+    })
+  }
   getRoomById(id:number):Observable<any>{
     return this.http.get(BASIC_URL + `api/admin/room/${id}`,{
       headers:this.createAuthorizationHeader(),

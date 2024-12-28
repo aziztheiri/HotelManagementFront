@@ -1,0 +1,89 @@
+<div class="dashboard-container">
+    <h1>Reservations Dashboard</h1>
+  
+    <!-- Status Message -->
+    <div
+      *ngIf="message"
+      [ngClass]="{
+        'success-message': messageType === 'success',
+        'error-message': messageType === 'error'
+      }"
+      class="status-message"
+    >
+      {{ message }}
+    </div>
+  
+    <!-- Reservations Table -->
+    <div class="reservations-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Reservation ID</th>
+            <th>Room Name</th>
+            <th>User Name</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservations">
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.roomName }}</td>
+            <td>{{ reservation.userName }}</td>
+            <td>{{ reservation.checkInDate | date: 'shortDate' }}</td>
+            <td>{{ reservation.checkOutDate | date: 'shortDate' }}</td>
+            <td>${{ reservation.price }}</td>
+            <td>
+                <i
+                  *ngIf="reservation.reservationStatus === 'PENDING'"
+                  class="bi bi-hourglass-split status-pending"
+                ></i>
+                <i
+                  *ngIf="reservation.reservationStatus === 'APPROVED'"
+                  class="bi bi-check-circle status-approved"
+                ></i>
+                <i
+                  *ngIf="reservation.reservationStatus === 'REJECTED'"
+                  class="bi bi-x-circle status-rejected"
+                ></i>
+                {{ reservation.reservationStatus }}
+              </td>
+              <td>
+                <!-- Approve Button -->
+                <button
+                  class="btn btn-success btn-sm me-2"
+                  (click)="updateReservationStatus(reservation.id, 'Approve')"
+                  title="Approve Reservation"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                >
+                  <i class="bi bi-check-circle"></i> Approve
+                </button>
+              
+                <!-- Reject Button -->
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="updateReservationStatus(reservation.id, 'Reject')"
+                  title="Reject Reservation"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                >
+                  <i class="bi bi-x-circle"></i> Reject
+                </button>
+              </td>
+              
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Pagination -->
+    <div class="pagination">
+      <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+      <span>Page {{ currentPage }} of {{ total }}</span>
+      <button [disabled]="currentPage === total" (click)="changePage(currentPage + 1)">Next</button>
+    </div>
+  </div>
+  

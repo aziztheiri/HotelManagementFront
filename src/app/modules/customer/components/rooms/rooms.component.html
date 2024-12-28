@@ -1,37 +1,80 @@
 <div class="dashboard-container">
-    <h1>Rooms Dashboard</h1>
-      <!-- Status Message -->
-  <div
-  *ngIf="message"
-  [ngClass]="{
-    'success-message': messageType === 'success',
-    'error-message': messageType === 'error'
-  }"
-  class="status-message"
->
-  {{ message }}
-</div>
+  <h1>Rooms Dashboard</h1>
 
-    <div class="rooms-grid">
-      <div *ngFor="let room of rooms" class="room-card">
-        <div class="room-image">
-            <img [src]="room.imageUrl" alt="{{ room.name }}" />
-          </div>
-        <div class="room-details">
-          <h3>{{ room.name }}</h3>
-          <p><strong>Type:</strong> {{ room.type }}</p>
-          <p><strong>Price:</strong> ${{ room.price }}</p>
-          <p><strong>Available:</strong> {{ room.available ? 'Yes' : 'No' }}</p>
-        </div>
-      
+  <!-- Status Message -->
+  <div
+    *ngIf="message"
+    [ngClass]="{
+      'success-message': messageType === 'success',
+      'error-message': messageType === 'error'
+    }"
+    class="status-message"
+  >
+    {{ message }}
+  </div>
+
+  <div class="rooms-grid">
+    <div *ngFor="let room of rooms" class="room-card">
+      <div class="room-image">
+        <img [src]="room.imageUrl" alt="{{ room.name }}" />
+      </div>
+      <div class="room-details">
+        <h3>{{ room.name }}</h3>
+        <p><strong>Type:</strong> {{ room.type }}</p>
+        <p><strong>Price:</strong> ${{ room.price }}</p>
+        <p><strong>Available:</strong> {{ room.available ? 'Yes' : 'No' }}</p>
+        <button
+          *ngIf="room.available"
+          (click)="openBookingModal(room.id)"
+          class="book-button"
+        >
+          Book Room
+        </button>
       </div>
     </div>
-  
-    <!-- Pagination -->
-    <div class="pagination">
-      <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
-      <span>Page {{ currentPage }} of {{ total }}</span>
-      <button [disabled]="currentPage === total" (click)="changePage(currentPage + 1)">Next</button>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ total }}</span>
+    <button [disabled]="currentPage === total" (click)="changePage(currentPage + 1)">
+      Next
+    </button>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal" *ngIf="showBookingModal">
+    <div class="modal-content">
+      <h2>Book Room</h2>
+      <form (ngSubmit)="bookRoom()">
+        <div class="form-group">
+          <label for="checkIn">Check-In Date</label>
+          <input
+            id="checkIn"
+            type="date"
+            [(ngModel)]="bookingDetails.checkInDate"
+            name="checkInDate"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="checkOut">Check-Out Date</label>
+          <input
+            id="checkOut"
+            type="date"
+            [(ngModel)]="bookingDetails.checkOutDate"
+            name="checkOutDate"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-button">Confirm Booking</button>
+        <button type="button" class="cancel-button" (click)="closeBookingModal()">
+          Cancel
+        </button>
+      </form>
     </div>
   </div>
-  
+</div>

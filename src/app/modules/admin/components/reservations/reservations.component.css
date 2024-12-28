@@ -1,0 +1,89 @@
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .status-message {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .reservations-table {
+    margin: 20px auto;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  thead th {
+    background-color: #f4f4f4;
+  }
+  
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .status-pending {
+    color: #ffc107; /* Yellow for pending */
+    font-size: 1.5rem;
+  }
+  
+  .status-approved {
+    color: #28a745; /* Green for approved */
+    font-size: 1.5rem;
+  }
+  
+  .status-rejected {
+    color: #dc3545; /* Red for rejected */
+    font-size: 1.5rem;
+  }
+  .btn {
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  

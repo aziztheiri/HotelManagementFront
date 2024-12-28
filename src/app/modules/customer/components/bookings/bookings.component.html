@@ -1,0 +1,40 @@
+<div class="bookings-container">
+    <h1>My Bookings</h1>
+  
+    <!-- Status Message -->
+    <div *ngIf="message" [ngClass]="{
+      'success-message': messageType === 'success',
+      'error-message': messageType === 'error'
+    }" class="status-message">
+      {{ message }}
+    </div>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+      <p>Loading bookings...</p>
+    </div>
+  
+    <!-- Bookings List -->
+    <div class="bookings-grid">
+      <div *ngFor="let booking of bookings" class="booking-card">
+        <div class="booking-details">
+          <h3>Room: {{ booking.roomName }}</h3>
+          <p><strong>Check-In:</strong> {{ booking.checkInDate | date: 'shortDate' }}</p>
+          <p><strong>Check-Out:</strong> {{ booking.checkOutDate | date: 'shortDate' }}</p>
+          <p><strong>Status:</strong> {{ booking.reservationStatus }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Pagination -->
+    <div class="pagination">
+      <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        Next
+      </button>
+    </div>
+  </div>
+  
