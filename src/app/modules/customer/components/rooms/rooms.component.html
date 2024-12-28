@@ -1,1 +1,37 @@
-<p>rooms works!</p>
+<div class="dashboard-container">
+    <h1>Rooms Dashboard</h1>
+      <!-- Status Message -->
+  <div
+  *ngIf="message"
+  [ngClass]="{
+    'success-message': messageType === 'success',
+    'error-message': messageType === 'error'
+  }"
+  class="status-message"
+>
+  {{ message }}
+</div>
+
+    <div class="rooms-grid">
+      <div *ngFor="let room of rooms" class="room-card">
+        <div class="room-image">
+            <img [src]="room.imageUrl" alt="{{ room.name }}" />
+          </div>
+        <div class="room-details">
+          <h3>{{ room.name }}</h3>
+          <p><strong>Type:</strong> {{ room.type }}</p>
+          <p><strong>Price:</strong> ${{ room.price }}</p>
+          <p><strong>Available:</strong> {{ room.available ? 'Yes' : 'No' }}</p>
+        </div>
+      
+      </div>
+    </div>
+  
+    <!-- Pagination -->
+    <div class="pagination">
+      <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+      <span>Page {{ currentPage }} of {{ total }}</span>
+      <button [disabled]="currentPage === total" (click)="changePage(currentPage + 1)">Next</button>
+    </div>
+  </div>
+  

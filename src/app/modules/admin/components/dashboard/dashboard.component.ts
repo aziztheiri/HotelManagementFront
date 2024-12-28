@@ -10,6 +10,8 @@ export class DashboardComponent {
   currentPage = 1;
   rooms =[];
   total:any;
+  message: string = '';
+  messageType: 'success' | 'error' | '' = '';
 constructor(private adminService:AdminService){
   this.getRooms()
 }
@@ -22,14 +24,26 @@ getRooms(){
   }
   )
 }
-onEdit(room: any) {
-  console.log('Edit clicked for room:', room);
-  // Implement your edit functionality here
-}
 
-onDelete(room: any) {
-  console.log('Delete clicked for room:', room);
-  // Implement your delete functionality here
+onDelete(roomId: number) {
+  if (confirm('Are you sure you want to delete this room?')) {
+    this.adminService.deleteRoom(roomId).subscribe(
+      () => {
+        this.displayMessage('Room deleted successfully!', 'success');
+        this.rooms = this.rooms.filter((room) => room.id !== roomId); // Remove from list
+      },
+      () => {
+        this.displayMessage('Error deleting the room. Please try again.', 'error');
+      }
+    );
+  }
+}
+private displayMessage(message: string, type: 'success' | 'error') {
+  this.message = message;
+  this.messageType = type;
+  if (type === 'success') {
+    setTimeout(() => (this.message = ''), 3000);
+  }
 }
 
 changePage(page: number) {
